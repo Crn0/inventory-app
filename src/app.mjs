@@ -1,4 +1,7 @@
+import 'dotenv/config';
 import express from "express";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url'
 import createError from "http-errors";
 import { join } from "path";
 import cookieParser from "cookie-parser";
@@ -6,20 +9,20 @@ import logger from "morgan";
 import indexRouter from "./routes/index.mjs";
 import usersRouter from "./routes/users.mjs";
 
-// Init dir name variable
-const { dirname } = import.meta;
+// if import meta dirname is undefine use import meta url to instead
+const __dirname = import.meta.dirname || dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
 // view engine setup
-app.set("views", join(dirname, "views"));
+app.set("views", join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(join(dirname, "public")));
+app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -33,7 +36,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, _) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = process.env.NODE_ENV === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
