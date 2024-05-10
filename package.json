@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "server": "DEBUG=<change to directory name>:* npm run dev",
+    "server": "DEBUG=inventory-app:* npm run dev",
     "format": "prettier --write \"**/*.{js,mjs}\""
   },
   "dependencies": {
