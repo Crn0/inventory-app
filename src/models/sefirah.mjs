@@ -14,9 +14,9 @@ const sefirahSchema = new Schema({
             message: (props) => `${props.value} is not a valid URL`,
         },
         cloudinary_id: { type: String },
-        possessor: { type: String, minLength: 3, maxLength: 100},
-        description: { type: String, minLength: 3, required: true },
     },
+    possessor: { type: String, minLength: 3, maxLength: 100 },
+    description: { type: String, minLength: 3, required: true },
 });
 
 export default mongoose.model('Sefirah', sefirahSchema);
