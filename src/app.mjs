@@ -8,7 +8,7 @@ import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index.mjs';
-import usersRouter from './routes/users.mjs';
+import inventoryRouter from './routes/inventory.mjs';
 
 // if import meta dirname is undefine use import meta url to instead
 const __dirname =
@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/inventory', inventoryRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
