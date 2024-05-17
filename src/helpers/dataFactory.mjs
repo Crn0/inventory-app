@@ -8,7 +8,7 @@ const imageFactory = (name) => {
         };
     };
 
-    const getImage = (index) => (index ? images[index] : images);
+    const getImage = (index) => (index === 'undefined' ? images : images[index]);
 
     const getName = () => name;
 
