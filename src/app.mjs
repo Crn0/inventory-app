@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import __dirname from '../dirname.mjs';
 import createError from 'http-errors';
 import { join } from 'path';
 import cookieParser from 'cookie-parser';
@@ -11,8 +10,7 @@ import indexRouter from './routes/index.mjs';
 import inventoryRouter from './routes/inventory.mjs';
 
 // if import meta dirname is undefine use import meta url to instead
-const __dirname =
-    import.meta.dirname || dirname(fileURLToPath(import.meta.url));
+
 
 const app = express();
 // Define the database URL to connect to.
@@ -22,7 +20,7 @@ const mongoDb = process.env.MONGO_DB;
 const main = async () => await mongoose.connect(mongoDb);
 main().catch(console.error);
 // view engine setup
-app.set('views', join(__dirname, 'views'));
+app.set('views', join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
