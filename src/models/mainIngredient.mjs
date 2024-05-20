@@ -19,4 +19,9 @@ const mainIngredient = new Schema({
     stocks: { type: Number, required: true },
 });
 
+// Virtual for model's url
+mainIngredient.virtual('url').get(function () {
+    return `/inventory/main_ingredient/${this._id}`;
+});
+
 export default mongoose.model('MainIngredient', mainIngredient);

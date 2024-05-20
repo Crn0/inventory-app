@@ -30,4 +30,9 @@ const pathWaySchema = new Schema({
     },
 });
 
+// Virtual for model's url
+pathWaySchema.virtual('url').get(function () {
+    return `/inventory/pathway/${this._id}`;
+});
+
 export default mongoose.model('Pathway', pathWaySchema);

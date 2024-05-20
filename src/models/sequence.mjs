@@ -37,4 +37,10 @@ const sequenceSchema = new Schema({
     path: { type: Schema.Types.ObjectId, ref: 'Pathway', required: true },
 });
 
+// Virtual for model's url
+sequenceSchema.virtual('url').get(function () {
+    return `/inventory/sequence/${this._id}`;
+});
+
+
 export default mongoose.model('Sequence', sequenceSchema);

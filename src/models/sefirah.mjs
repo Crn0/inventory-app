@@ -19,4 +19,9 @@ const sefirahSchema = new Schema({
     description: { type: String, minLength: 3, required: true },
 });
 
+// Virtual for model's url
+sefirahSchema.virtual('url').get(function () {
+    return `/inventory/sefirah/${this._id}`;
+});
+
 export default mongoose.model('Sefirah', sefirahSchema);

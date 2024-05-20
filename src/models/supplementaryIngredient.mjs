@@ -19,6 +19,11 @@ const supplementaryIngredient = new Schema({
     stocks: { type: Number, required: true },
 });
 
+// Virtual for model's url
+supplementaryIngredient.virtual('url').get(function () {
+    return `/inventory/supplementary_ingredient/${this._id}`;
+});
+
 export default mongoose.model(
     'SupplementaryIngredient',
     supplementaryIngredient

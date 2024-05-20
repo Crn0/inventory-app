@@ -16,5 +16,8 @@ const tarotSchema = new Schema({
         cloudinary_id: { type: String },
     },
 });
-
+// Virtual for tarot's url
+tarotSchema.virtual('url').get(function () {
+    return `/inventory/tarot/${this._id}`;
+});
 export default mongoose.model('TarotCard', tarotSchema);

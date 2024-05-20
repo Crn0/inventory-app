@@ -7,4 +7,9 @@ const abilitySchema = new Schema({
     description: [{ type: String, minLength: 3, required: true }],
 });
 
+// Virtual for model's url
+abilitySchema.virtual('url').get(function () {
+    return `/inventory/ability/${this._id}`;
+});
+
 export default mongoose.model('Ability', abilitySchema);
