@@ -1,0 +1,17 @@
+
+a {
+  color: #00B7FF;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.w-50px {
+  width: 50px;
+}
+
+.w-150px {
+  width: 150px;
+}
