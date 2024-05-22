@@ -1,5 +1,21 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 #{title}
+  div
+    h2 Data Base
+    div 
+      p #[strong Pathways:] #{pathwayCount}
+    div 
+      p #[strong Sequences:] #{sequenceCount}
+    div 
+      p #[strong Sefirahs:] #{sefirahCount}
+    div 
+      p #[strong Tarots:] #{sequenceCount}
+    div 
+      p #[strong Main Ingredients :] #{mainIngredientCount}
+    div 
+      p #[strong Supplementary Ingredients:] #{supplementaryIngredientCount}
+    div 
+      p #[strong Abilities:] #{abilityCount}
+  

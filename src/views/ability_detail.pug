@@ -1,0 +1,9 @@
+extends layout
+block css
+block content
+	h1 #{ title }
+	div
+		p #[strong Name:] #{ ability.name }
+		+details('Description')
+			div
+				p #{ ability.description }

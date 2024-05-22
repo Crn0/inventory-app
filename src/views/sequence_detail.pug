@@ -1,0 +1,69 @@
+extends layout
+block css
+	link(rel='stylesheet', href='/stylesheets/sequence_detail.module.css')
+block content
+	h1 #{ title }
+	div
+		div
+			h2 #{sequence.name} sequence
+			if sequence.image.url
+				img(src=sequence.image.url alt=sequence.name)
+		div
+			+details('General Information')
+				p #[strong Name:] #{sequence.name}
+				each ingredient, index in ingredients
+					if ingredient.stocks < 50
+						p.unavailable #[strong Status:] unavailable 
+						p.unavailable #[strong Name:] #{ ingredient.name }(need to be greater than or equal to 50)
+						- break 
+					if index === ingredients.length - 1
+						p.available #[strong Status:] available
+		div 
+			+details('Pathway')
+				div
+					+link(sequence.path.url)
+						p #[strong Pathway:] #{sequence.path.name}
+					if sequence.path.image.url
+						img(src=sequence.path.image.url alt=sequence.path.name)
+		div
+			+details('Main Ingredients')
+				if	sequence.formula.main_ingredients.length
+					each ingredient in sequence.formula.main_ingredients
+						if ingredient.stocks < 0
+							div
+								+link(ingredient.url)
+									p #[strong Name:] #{ingredient.name}
+								p #[strong Stocks:] #{ingredient.stocks}
+								p.unavailable #[strong Status:] unavailable
+								if ingredient.image.url
+									img(src=ingredient.image.url)
+						else
+							div
+								+link(ingredient.url)
+									p #[strong Name:] #{ingredient.name}
+								p #[strong Stocks:] #{ingredient.stocks} 
+								p.available #[strong Status:] available
+								if ingredient.image.url
+									img(src=ingredient.image.url)
+		div
+			+details('Supplementary Ingredients')
+				if sequence.formula.supplementary_ingredients.length
+					each ingredient in sequence.formula.supplementary_ingredients
+						if ingredient.stocks < 0
+							div
+								+link(ingredient.url)
+									p #[strong Name:] #{ingredient.name}
+									p #[strong Stocks:] #{ingredient.stocks}
+									p.unavailable #[strong Status:] unavailable
+								if ingredient.image.url
+									img(src=ingredient.image.url)
+						else
+							div
+								+link(ingredient.url)
+									p #[strong Name:] #{ingredient.name}
+								p #[strong Stocks:] #{ingredient.stocks}
+								p.available #[strong Status:] available 
+								if ingredient.image.url							
+									img(src=ingredient.image.url)
+				else 
+					p There are no supplementary ingredients.

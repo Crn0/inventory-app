@@ -1,0 +1,26 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+        div
+            div 
+                h2 #{ sefirah.name } sefirah
+                if sefirah.image.url
+                    img(src=sefirah.image.url alt=sefirah.name)
+            div 
+                +details('General Information')
+                    p #[strong Name:] #{sefirah.name}
+                    p #[strong Possessor:] #{sefirah.possessor}
+            div 
+                +details('Description')
+                    p #{ sefirah.description }
+            div 
+                +details('Pathways')
+                    if pathways.length
+                        each pathway in pathways
+                            div
+                                +link(pathway.url)
+                                    p #[strong Name:] #{pathway.name}
+                                img(src=pathway.image.url alt=pathway.name)
+                    else 
+                        p There are no pathways.

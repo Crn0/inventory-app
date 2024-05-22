@@ -1,0 +1,22 @@
+extends layout
+block css
+block content
+	h1 #{ title }
+	div
+		div
+			h2 #{ tarot.name } card of blasphemy
+				if tarot.image.url
+					img(src=tarot.image.url alt=tarot.name)
+		div 
+			+details('General Information')
+				p #[strong Name:] #{tarot.name}
+		div 
+			+details('Pathway')
+				if pathway !== null
+					div
+						+link(pathway.url)
+							p #[strong Pathway:] #{pathway.name}
+						if pathway.image.url
+							img(src=pathway.image.url alt=pathway.name)
+				else
+					p There is no pathway.	

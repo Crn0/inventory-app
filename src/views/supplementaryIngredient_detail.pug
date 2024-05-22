@@ -1,0 +1,31 @@
+extends layout
+block css
+block content
+    h1 #{ title }
+    div
+        div 
+            h2 #{ supplementaryIngredient.name } 
+            if  supplementaryIngredient.image.url
+                img(src=supplementaryIngredient.image.url alt=supplementaryIngredient.name)
+        div 
+            +details('General information')
+                p #[strong Name:] #{ supplementaryIngredient.name }
+                p #[strong Stocks:] #{ supplementaryIngredient.stocks }
+                if supplementaryIngredient.stocks < 0
+                    p.unavailable #[strong Status:] unavailable(need to be greater than or equal to 50)
+                else 
+                    p.available #[strong Status:] available
+        div 
+            +details('Description')
+                p #{ supplementaryIngredient.description }
+        div 
+            +details('Sequences')
+                if sequences.length
+                    each sequence in sequences 
+                        div 
+                            +link(sequence.url)
+                                p #[strong Name:] #{ sequence.name }
+                            if sequence.image.url
+                                img(src=sequence.image.url alt=sequence.name) 
+                else 
+                    p There are no sequences.

@@ -1,7 +1,60 @@
+mixin link(href, text) 
+  a(href=href) 
+    if block
+      block 
+    else 
+      p #{ text }
+mixin details(summary, style)
+  details
+    summary #{summary}
+    if block
+      div(class=style) 
+        block
+    else 
+      p There are no details.
 doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/reset.css')
+    link(rel='stylesheet', href='/stylesheets/style.module.css')
+
+    block css
   body
-    block content
+    header
+      img(class='w-150px', src='/images/LoM-logo.png', alt='lord of the mysteries') 
+    main 
+      section 
+        nav(class='nav')
+          block sidebar 
+            div.top
+              img(class='w-50px foo', src='/images/The_Fool_beyonder_chara.png', alt='the fool pathway symbol') 
+              p Mysteries
+            div.mid
+              ul.side-bar 
+                li
+                  a(href='/inventory') Home 
+                li
+                  a(href='/inventory/pathways') Pathways 
+                li
+                  a(href='/inventory/sequences') Sequences 
+                li
+                  a(href='/inventory/sefirahs') Sefirahs 
+                li
+                  a(href='/inventory/tarots') Tarots 
+                li
+                  a(href='/inventory/main_ingredients') Main Ingredients 
+                li
+                  a(href='/inventory/supplementary_ingredients')  Supplementary Ingredients 
+                li
+                  a(href='/inventory/abilities') Abilities
+
+      section
+          block content         
+                
+                 
+                
+                
+
+
+    

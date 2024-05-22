@@ -1,0 +1,58 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    div 
+        div 
+            h2 #{pathway.name} pathway
+            if pathway.image.url 
+                img(src=pathway.image.url alt=pathway.name style='width: 250px;')        
+        div 
+            +details('General Information')
+                p #[strong Name:] #{ pathway.name }
+                p #[strong Mythical form:] #{ pathway.mythical_form }
+                div
+                    p #[strong Card of Blasphemy:]
+                        if pathway.card_of_blasphemy
+                            +link(pathway.card_of_blasphemy.url)                       
+                                p #[strong Name:] #{ pathway.card_of_blasphemy.name }
+                            if pathway.card_of_blasphemy.image.url
+                                img(src=pathway.card_of_blasphemy.image.url alt=pathway.card_of_blasphemy.name style='width: 250px;')                        
+                        else 
+                            p There is no card of blasphemy
+                div            
+                    p #[strong Sefirah:]
+                    if pathway.sefirah                   
+                        +link(pathway.sefirah.url)
+                            p #[strong Name:] #{ pathway.sefirah.name }
+                        if pathway.sefirah.image.url
+                            img(src=pathway.sefirah.image.url alt=pathway.sefirah.name style='width: 250px;')
+                    else 
+                        p There is no sefirah.		
+
+        div 
+            +details('Sequences')
+                if sequences.length 
+                    each sequence in sequences
+                        div
+                            +link(sequence.url)
+                                p #[strong Name:] #{ sequence.name }
+                            if sequence.image.url        
+                                img(src=sequence.image.url alt=sequence.name)
+                else 
+                    p There are no sequences.
+        div
+            +details('Abilities')
+                if sequences.length 
+                    each sequence in sequences 
+                        if sequence.abilities.length
+                            each ability in sequence.abilities
+                                dl
+                                    dt
+                                        +link(ability.url) 
+                                            p #[strong Name:] #{ ability.name }
+                                    each item in ability.description
+                                        dd - #{ item }
+                else 
+                    p There are no abilities.
+                    
