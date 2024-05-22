@@ -1,0 +1,15 @@
+extends layout 
+block css
+block content 
+    h1 #{ title }
+    div 
+        if sequences.length
+            each sequence in sequences 
+                div 
+                    +link(sequence.url)
+                        p #[strong Name:] #{ sequence.name }
+                    if sequence.image.url
+                        img(src=sequence.image.url  alt=sequence.name)
+        else    
+            p There are no sequences.
+                    

@@ -1,0 +1,14 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    div
+        if mainIngredients.length
+            each ingredient in mainIngredients
+                div 
+                    +link(ingredient.url)
+                        p #[strong Name:] #{ ingredient.name }
+                    if ingredient.image.url 
+                        img(src=ingredient.image.url alt=ingredient.name)
+        else 
+            p There are no ingredients.

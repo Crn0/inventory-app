@@ -1,0 +1,17 @@
+extends layout
+block css
+block content 
+    h1 #{ title }
+    if pathways.length 
+        div
+            each pathway in pathways
+                div 
+                    +link(pathway.url, pathway.name)
+                        if pathway.image.url
+                            figure 
+                                img(src=pathway.image.url alt=pathway.name)
+                                figcaption #{ pathway.name } official art.
+                        else 
+                            p #{ pathway.name }
+    else 
+        p There are no paths.

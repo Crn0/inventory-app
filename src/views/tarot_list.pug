@@ -1,0 +1,14 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    div
+        if tarots.length 
+            each tarot in tarots 
+                div 
+                    +link(tarot.url)
+                        p #[strong Name:] #{ tarot.name }
+                    if tarot.image.url
+                        img(src=tarot.image.url alt=tarot.name)
+        else 
+            p There are no card of blasphemy.

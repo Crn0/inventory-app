@@ -1,0 +1,15 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+        div
+            if sefirahs.length 
+                each sefirah in sefirahs 
+                    div 
+                        div
+                            +link(sefirah.url)
+                                p #[strong Name:] #{sefirah.name}
+                            if sefirah.image.url
+                                    img(src=sefirah.image.url alt=sefirah.name)
+            else
+                p There are no sefirahs.
