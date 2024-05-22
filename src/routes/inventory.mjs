@@ -42,7 +42,7 @@ router.post('/pathway/:id/update', pathway_controller.pathway_update_post);
 router.post('/pathway/:id/delete', pathway_controller.pathway_delete_post);
 
 // SEQUENCE ROUTES
-// GET request 
+// GET request
 
 // GET request for creating a Sequence.
 // NOTE: This must come before routes that displays the Sequence (use id).
@@ -133,58 +133,103 @@ router.post('/tarot/:id/delete', tarot_controller.tarot_delete_post);
 
 // GET request for creating a single MainIngredient.
 // NOTE: This must come before routes that displays the MainIngredient (use id).
-router.get('/main_ingredient/create', mainIngredient_controller.mainIngredient_create_get);
+router.get(
+    '/main_ingredient/create',
+    mainIngredient_controller.mainIngredient_create_get
+);
 
 // GET request for list of all MainIngredient.
 router.get('/main_ingredients', mainIngredient_controller.mainIngredient_list);
 
 // GET request for a single MainIngredient.
-router.get('/main_ingredient/:id', mainIngredient_controller.mainIngredient_detail);
+router.get(
+    '/main_ingredient/:id',
+    mainIngredient_controller.mainIngredient_detail
+);
 
 // GET request for updating a MainIngredient.
-router.get('/main_ingredient/:id/update', mainIngredient_controller.mainIngredient_update_get);
+router.get(
+    '/main_ingredient/:id/update',
+    mainIngredient_controller.mainIngredient_update_get
+);
 
 // GET request for deleting a MainIngredient.
-router.get('/main_ingredient/:id/delete', mainIngredient_controller.mainIngredient_delete_get);
+router.get(
+    '/main_ingredient/:id/delete',
+    mainIngredient_controller.mainIngredient_delete_get
+);
 
 // POST request
 // POST request for creating a MainIngredient.
-router.post('/main_ingredient/create', mainIngredient_controller.mainIngredient_create_post);
+router.post(
+    '/main_ingredient/create',
+    mainIngredient_controller.mainIngredient_create_post
+);
 
 // POST request for updating a MainIngredient.
-router.post('/main_ingredient/:id/update', mainIngredient_controller.mainIngredient_update_post);
+router.post(
+    '/main_ingredient/:id/update',
+    mainIngredient_controller.mainIngredient_update_post
+);
 
 // POST request for deleting a MainIngredient.
-router.post('/main_ingredient/:id/delete', mainIngredient_controller.mainIngredient_delete_post);
+router.post(
+    '/main_ingredient/:id/delete',
+    mainIngredient_controller.mainIngredient_delete_post
+);
 
 // SUPPLEMENTARY INGREDIENT ROUTES
 // GET request
 
 // GET request for creating a single SupplementaryIngredient.
 // NOTE: This must come before routes that displays the SupplementaryIngredient (use id).
-router.get('/supplementary_ingredient/create', supplementaryIngredient_controller.supplementaryIngredient_create_get);
+router.get(
+    '/supplementary_ingredient/create',
+    supplementaryIngredient_controller.supplementaryIngredient_create_get
+);
 
 // GET request for list of all SupplementaryIngredient.
-router.get('/supplementary_ingredients', supplementaryIngredient_controller.supplementaryIngredient_list);
+router.get(
+    '/supplementary_ingredients',
+    supplementaryIngredient_controller.supplementaryIngredient_list
+);
 
 // GET request for a single SupplementaryIngredient.
-router.get('/supplementary_ingredient/:id', supplementaryIngredient_controller.supplementaryIngredient_detail);
+router.get(
+    '/supplementary_ingredient/:id',
+    supplementaryIngredient_controller.supplementaryIngredient_detail
+);
 
 // GET request for updating a SupplementaryIngredient.
-router.get('/supplementary_ingredient/:id/update', supplementaryIngredient_controller.supplementaryIngredient_update_get);
+router.get(
+    '/supplementary_ingredient/:id/update',
+    supplementaryIngredient_controller.supplementaryIngredient_update_get
+);
 
 // GET request for deleting a SupplementaryIngredient.
-router.get('/supplementary_ingredient/:id/delete', supplementaryIngredient_controller.supplementaryIngredient_delete_get);
+router.get(
+    '/supplementary_ingredient/:id/delete',
+    supplementaryIngredient_controller.supplementaryIngredient_delete_get
+);
 
 // POST request
 // POST request for creating a SupplementaryIngredient.
-router.post('/supplementary_ingredient/create', supplementaryIngredient_controller.supplementaryIngredient_create_post);
+router.post(
+    '/supplementary_ingredient/create',
+    supplementaryIngredient_controller.supplementaryIngredient_create_post
+);
 
 // POST request for updating a SupplementaryIngredient.
-router.post('/supplementary_ingredient/:id/update', supplementaryIngredient_controller.supplementaryIngredient_update_post);
+router.post(
+    '/supplementary_ingredient/:id/update',
+    supplementaryIngredient_controller.supplementaryIngredient_update_post
+);
 
 // POST request for deleting a SupplementaryIngredient.
-router.post('/supplementary_ingredient/:id/delete', supplementaryIngredient_controller.supplementaryIngredient_delete_post);
+router.post(
+    '/supplementary_ingredient/:id/delete',
+    supplementaryIngredient_controller.supplementaryIngredient_delete_post
+);
 
 // ABILITY ROUTES
 // GET request
