@@ -248,7 +248,7 @@ router.get('/ability/:id', ability_controller.ability_detail);
 router.get('/ability/:id/update', ability_controller.ability_update_get);
 
 // GET request for deleting a Ability
-router.get('/ability/:id', ability_controller.ability_delete_get);
+router.get('/ability/:id/delete', ability_controller.ability_delete_get);
 
 // POST request
 // POST request for creating a Ability.
