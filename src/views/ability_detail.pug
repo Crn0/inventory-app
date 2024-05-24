@@ -6,4 +6,11 @@ block content
 		p #[strong Name:] #{ ability.name }
 		+details('Description')
 			div
-				p #{ ability.description }
+				ul 
+					each description in ability.descriptions
+						li #{ description }
+		hr
+		+link(`${ability.url}/delete`) 
+			p Delete ability
+		+link(`${ability.url}/update`) 
+			p Update ability

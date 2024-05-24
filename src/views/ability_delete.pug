@@ -1,0 +1,18 @@
+extends layout
+block css 
+block content 
+    h1 #{ title }: #{ ability.name }
+    if sequences.length
+        div(style='margin-left:20px;margin-top:20px')
+            p #[strong The following sequences uses this ability:]
+            ul
+                each sequence in sequences
+                    li 
+                        +link(sequence.url, sequence.name)
+                
+    p Do you really want to delete this Ability?
+    form(method='POST')
+        div.form-group
+            input#ability_id.form-control(type='hidden', name='ability_id', value=ability._id ) 
+        button.btn.btn-primary(type='submit') Submit
+        
