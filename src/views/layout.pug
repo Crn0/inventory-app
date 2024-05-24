@@ -1,9 +1,10 @@
 mixin link(href, text) 
-  a(href=href) 
-    if block
+  if block
+    a(href=href)
       block 
-    else 
-      p #{ text }
+  else 
+    p
+      a(href=href) #{ text } 
 mixin details(summary, style)
   details
     summary #{summary}
@@ -48,13 +49,27 @@ html
                   a(href='/inventory/supplementary_ingredients')  Supplementary Ingredients 
                 li
                   a(href='/inventory/abilities') Abilities
+                li 
+                  a(href='/inventory/pathway/create') Create new pathway
+                li 
+                  a(href='/inventory/sequence/create') Create new sequence
+                li 
+                  a(href='/inventory/sefirah/create') Create new sefirah
+                li 
+                  a(href='/inventory/tarot/create') Create new tarot
+                li 
+                  a(href='/inventory/main_ingredient/create') Create new main ingredient
+                li 
+                  a(href='/inventory/supplementary_ingredient/create') Create new supplementary ingredient
+                li 
+                  a(href='/inventory/ability/create') Create new ability
 
       section
-          block content         
-                
-                 
-                
-                
+        block content         
 
 
-    
+
+
+
+
+
