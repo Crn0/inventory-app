@@ -67,3 +67,15 @@ block content
 									img(src=ingredient.image.url)
 				else 
 					p There are no supplementary ingredients.
+		div
+			+details('Abilities')
+				if sequence.abilities.length
+					each ability in sequence.abilities
+						dl
+							dt
+								+link(ability.url) 
+									p #[strong Name:] #{ ability.name }
+							each description in ability.descriptions
+								dd - #{ description }
+				else 
+					p There are no abilities.

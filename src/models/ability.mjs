@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const abilitySchema = new Schema({
     name: { type: String, minLength: 3, maxLength: 100, required: true },
-    description: [{ type: String, minLength: 3, required: true }],
+    descriptions: [{ type: String, minLength: 3, required: true }],
 });
 
 // Virtual for model's url

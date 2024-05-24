@@ -51,8 +51,8 @@ block content
                                     dt
                                         +link(ability.url) 
                                             p #[strong Name:] #{ ability.name }
-                                    each item in ability.description
-                                        dd - #{ item }
+                                    each description in ability.descriptions
+                                        dd - #{ description }
                 else 
                     p There are no abilities.
                     
