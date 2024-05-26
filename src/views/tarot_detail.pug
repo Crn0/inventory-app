@@ -4,7 +4,7 @@ block content
 	h1 #{ title }
 	div
 		div
-			h2 #{ tarot.name } card of blasphemy
+			h2 #{ tarot.name }
 				if tarot.image.url
 					img(src=tarot.image.url alt=tarot.name)
 		div 
@@ -20,3 +20,8 @@ block content
 							img(src=pathway.image.url alt=pathway.name)
 				else
 					p There is no pathway.	
+			hr
+			+link(`${tarot.url}/delete`)
+				p Delete Card of Blasphemy 
+			+link(`${tarot.url}/update`)
+				p Update Card of Blasphemy 
