@@ -35,7 +35,7 @@ const ability_detail = asyncHandler(async (req, res, next) => {
 // GET form request
 const ability_create_get = asyncHandler(async (req, res, _) => {
     res.render('ability_form', {
-        title: 'Ability Create'
+        title: 'Create Ability'
     });
 });
 
@@ -88,7 +88,7 @@ const ability_create_post = [
     body('name')
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Name must not be empty or greater than or equal to 3 words')
+    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
     .custom(isFirstLetterUpperCaseAndAfterSpace)
     .withMessage(
         'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
@@ -115,7 +115,7 @@ const ability_create_post = [
             return res.render('ability_form', {
                 ability,
                 errors: errors.array(),
-                title: 'Ability Create'
+                title: 'Create Ability'
             })
 ;        }
         // Data from form is valid.
@@ -147,7 +147,7 @@ const ability_update_post = [
     body('name')
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Name must not be empty or greater than or equal to 3 words')
+    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
     .custom(isFirstLetterUpperCaseAndAfterSpace)
     .withMessage(
         'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
@@ -160,23 +160,22 @@ const ability_update_post = [
     .escape(),
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, _) => {
+        const { id } = req.params;
         // Extract the validation errors from a request.
         const errors = validationResult(req);
         const { name, descriptions } = req.body;
-        const { id } = req.params;
         // Create a Ability object with trimmed data.
         const ability = new Ability({
             name,
             descriptions,
             _id: id,
         });
-        
         if(!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values/error messages.
             return res.render('ability_form', {
                 ability,
                 errors: errors.array(),
-                title: 'Ability Create'
+                title: 'Update Ability'
             })
 ;        }
         // Data from form is valid. Update the record.
@@ -189,8 +188,7 @@ const ability_update_post = [
 const ability_delete_post = asyncHandler(async (req, res, _) => {
     const { id } = req.params;
     // Get details of sequences that uses this ability
-    const sequences = await Sequence.updateMany({ abilities: id }, { $pull: { abilities: id }})
-    console.log(sequences);
+    await Sequence.updateMany({ abilities: id }, { $pull: { abilities: id }})
 
     await Ability.findByIdAndDelete(id);
 
