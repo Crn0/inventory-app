@@ -8,7 +8,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View Credentials' below to copy your API secret
 });
 
-const UploadImage = async (url, tags) => {
+const UploadImage = async (url, tags, public_id) => {
     try {
         const res = await cloudinary.uploader.upload(url, { tags });
 
@@ -18,6 +18,9 @@ const UploadImage = async (url, tags) => {
     }
 };
 
-// UploadImage(`/home/ivan/repos/inventory-app/public/images/Fool_Art.png`)
 
+// UploadImage(`/home/ivan/repos/inventory-app/public/images/Fool_Art.png`)
+export {
+    cloudinary
+}
 export default UploadImage;
