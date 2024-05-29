@@ -1,0 +1,44 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    form(method='POST' enctype="multipart/form-data")
+        fieldset.form-group
+            label #[strong Name:] 
+                input(type='text' name='name' required value=(pathway ? pathway.name : ''))
+            label #[strong Image:]
+                input(type='file' name='image')
+        fieldset.form-group
+            label #[strong Card of Blasphemy:]
+                select(name='card_of_blasphemy' required)
+                    option(value='') --Please select an card of blasphemy--
+                    each tarot in tarots 
+                        if pathway
+                            if tarot._id.toString() === pathway.card_of_blasphemy._id.toString()
+                                option(value=tarot._id selected) #{ tarot.name }
+                            else 
+                                option(value=tarot._id) #{ tarot.name }
+                        else 
+                            option(value=tarot._id) #{ tarot.name }
+            label #[strong Sefirah]
+                select(name='sefirah' required)
+                    option(value='') --Please select an sefirah--
+                    each sefirah in sefirahs
+                        if pathway 
+                            if sefirah._id.toString() === pathway.sefirah._id.toString()
+                                option(value=sefirah._id selected) #{ sefirah.name }
+                            else 
+                                option(value=sefirah._id) #{ sefirah.name }
+                        else 
+                            option(value=sefirah._id) #{ sefirah.name }
+        fieldset.form-group
+            label #[strong Mythical Form:]
+                textarea(name='mythical_form' cols='30' rows='10') #{ pathway && pathway.mythical_form } 
+            label #[strong Above The Sequence:]
+                input(type='text' name='above_the_sequence' required value=(pathway ? pathway.above_the_sequence : ''))
+        button(type='submit') Submit
+
+    if errors 
+        ul 
+            each error in errors 
+                li #{error.msg}

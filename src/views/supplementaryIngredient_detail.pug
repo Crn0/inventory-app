@@ -29,3 +29,8 @@ block content
                                 img(src=sequence.image.url alt=sequence.name) 
                 else 
                     p There are no sequences.
+            hr
+            +link(`${supplementaryIngredient.url}/delete`) 
+                p Delete Supplementary Ingredient
+            +link(`${supplementaryIngredient.url}/update`) 
+                p Update Supplementary Ingredient

@@ -1,0 +1,17 @@
+extends layout
+block css 
+block content 
+    h1 #{ title }: #{ tarot.name }
+    if pathways.length 
+        div(style='margin-left:20px;margin-top:20px')
+            p #[strong Delete the following pathways before attempting to delete this card of blasphemy.]
+            ul 
+                each path in pathways 
+                    li 
+                        +link(path.url, path.name)
+    else 
+        p Do you really want to delete this Tarot?
+        form(method='POST')
+            div.form-group
+                input(type='hidden' name='tarot_id' value=tarot._id)
+            button(type='submit') Submit

@@ -1,0 +1,19 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    form(method='POST' enctype="multipart/form-data")
+        fieldset.form-group
+            label #[strong Main Ingredient:]
+                input(type='text' placeholder='Dragon\'s heart' name='name' required value=(ingredient === undefined ? '' : ingredient.name))
+            label #[strong Image:]
+                input(type='file' name='image')  
+            label #[strong Stocks:]
+                input(type='number' name='stocks' required value=(ingredient === undefined ? '' : ingredient.stocks))
+            label #[strong Description:]
+                textarea(name='description' cols='30' rows='10') #{ ingredient && ingredient.description } 
+            button(type='submit') Submit 
+    if errors
+        ul 
+            each error in errors 
+                li #{ error.msg }

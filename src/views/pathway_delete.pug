@@ -1,0 +1,23 @@
+extends layout
+block css
+block content
+    h1 #{ title }
+    div 
+        div 
+            h2 #{pathway.name} pathway
+            if pathway.image.url 
+                img(src=pathway.image.url alt=pathway.name style='width: 250px;') 
+        div 
+            if sequences.length 
+                div(style='margin-left:20px;margin-top:20px')
+                    p #[strong Delete the following sequences before attempting to delete this pathway.]
+                    ul 
+                        each sequence in sequences 
+                            li 
+                                +link(sequence.url, sequence.name)
+            else 
+                p Do you really want to delete this Pathway?
+                form(method='POST')
+                    div.form-group
+                    input(type='hidden' name='pathway_id' value=pathway._id)
+                    button(type='submit') Submit 

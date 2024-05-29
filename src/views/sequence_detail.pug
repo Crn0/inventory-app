@@ -11,13 +11,18 @@ block content
 		div
 			+details('General Information')
 				p #[strong Name:] #{sequence.name}
-				each ingredient, index in ingredients
-					if ingredient.stocks < 50
-						p.unavailable #[strong Status:] unavailable 
-						p.unavailable #[strong Name:] #{ ingredient.name }(need to be greater than or equal to 50)
-						- break 
-					if index === ingredients.length - 1
-						p.available #[strong Status:] available
+				if ingredients[0].length < 0 || ingredients[1].length < 0
+					p.unavailable #[strong Status:] unavailable
+				else 
+					each ingredient, index in ingredients
+						if ingredient.name.split(' ').includes('beyonder') || ingredient.name.split(' ').includes('characteristic')
+							- continue
+						if ingredient.stocks < 50
+							p.unavailable #[strong Status:] unavailable 
+							p.unavailable #[strong Name:] #{ ingredient.name }(need to be greater than or equal to 50)
+							- break 
+						if index === ingredients.length - 1
+							p.available #[strong Status:] available
 		div 
 			+details('Pathway')
 				div
@@ -79,3 +84,8 @@ block content
 								dd - #{ description }
 				else 
 					p There are no abilities.
+		hr
+		+link(`${sequence.url}/delete`) 
+			p Delete Sequence
+		+link(`${sequence.url}/update`) 
+			p Update Sequence

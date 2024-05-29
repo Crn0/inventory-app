@@ -1,0 +1,24 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+        div
+            div 
+                h2 #{ sefirah.name } sefirah
+                if sefirah.image.url
+                    img(src=sefirah.image.url alt=sefirah.name)
+                p #{ sefirah.description }
+            div 
+                if pathways.length 
+                    div(style='margin-left:20px;margin-top:20px')
+                        p #[strong Delete the following pathways before attempting to delete this sefirah.]
+                        ul 
+                            each path in pathways 
+                                li 
+                                    +link(path.url, path.name)
+                else 
+                    p Do you really want to delete this Sefirah?
+                    form(method='POST')
+                        div.form-group
+                            input(type='hidden' name='sefirah_id' value=sefirah._id)
+                        button(type='submit') Submit

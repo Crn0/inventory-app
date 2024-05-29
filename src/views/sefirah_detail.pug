@@ -24,3 +24,8 @@ block content
                                 img(src=pathway.image.url alt=pathway.name)
                     else 
                         p There are no pathways.
+            hr
+            +link(`${sefirah.url}/delete`) 
+                p Delete Sefirah
+            +link(`${sefirah.url}/update`) 
+                p Update Sefirah

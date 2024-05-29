@@ -55,4 +55,8 @@ block content
                                         dd - #{ description }
                 else 
                     p There are no abilities.
-                    
+        hr
+        +link(`${pathway.url}/delete`) 
+            p Delete Pathway
+        +link(`${pathway.url}/update`) 
+            p Update Pathway

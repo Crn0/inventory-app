@@ -10,13 +10,13 @@ block content
                 if ability.descriptions.length !== 0
                     each description in ability.descriptions
                         label Description: 
-                            textarea(name="descriptions", cols="30", rows="10") #{ description }
+                            textarea(name='descriptions', cols='30', rows='10') #{ description }
             else
                 label Description: 
-                    textarea(name="descriptions", cols="30", rows="10")
+                    textarea(name='descriptions', cols='30', rows='10')
 
-            button(type="button" class='add') Add Description 
-        button(type="submit") Submit
+            button(type='button' class='add') Add Description 
+        button(type='submit') Submit
     if errors
         ul 
             each error in errors 

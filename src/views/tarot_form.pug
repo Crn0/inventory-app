@@ -1,0 +1,15 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    form(method='POST' enctype="multipart/form-data")
+        fieldset.form-group
+            label #[strong Name:]
+                input(type='text' placeholder='The World' name='name' required value=(tarot ? tarot.name : ''))
+            label #[strong Image:]
+                input(type='file' name='image')
+            button(type='submit') Submit
+    if errors
+        ul 
+            each error in errors 
+                li #{ error.msg } 

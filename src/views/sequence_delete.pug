@@ -1,0 +1,29 @@
+extends layout
+block css
+block content
+    h1 #{ title }
+    div
+        div
+            h2 #{sequence.name} sequence
+            if sequence.image.url
+                img(src=sequence.image.url alt=sequence.name)
+        div
+            p #[strong Name:] #{sequence.name}
+            if ingredients[0].length < 0 || ingredients[1].length < 0
+                p.unavailable #[strong Status:] unavailable
+            else 
+                each ingredient, index in ingredients
+                    if ingredient.name.split(' ').includes('beyonder') || ingredient.name.split(' ').includes('characteristic')
+                        - continue
+                    if ingredient.stocks < 50
+                        p.unavailable #[strong Status:] unavailable 
+                        p.unavailable #[strong Name:] #{ ingredient.name }(need to be greater than or equal to 50)
+                        - break 
+                    if index === ingredients.length - 1
+                        p.available #[strong Status:] available
+
+            p Do you really want to delete this sequence 
+            form(method='POST')
+                div.form-group
+                    input(type='hidden' name='sequence_id' value=sequence._id)
+                button(type='submit') Submit

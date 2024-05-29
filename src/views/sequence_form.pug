@@ -1,0 +1,54 @@
+extends layout 
+block css 
+block content 
+    h1 #{ title }
+    form(method='POST' enctype="multipart/form-data")
+        fieldset.form-group
+            label #[strong Name:]
+                input(type='text' name='name' placeholder='Seer' required value=( sequence ? sequence.name : ''))
+            label #[strong Image:]
+                input(type='file' name='image')
+            label #[strong Pathway:]
+                select(name='pathway' required)
+                    option(value='') -Please select an pathway--
+                        each pathway in pathways 
+                            if sequence 
+                                if pathway._id.toString() === sequence.path._id.toString()
+                                    option(value=pathway._id selected) #{ pathway.name }
+                                else
+                                    option(value=pathway._id) #{ pathway.name }
+                            else
+                                option(value=pathway._id) #{ pathway.name }
+        fieldset.form-group
+            div #[strong Main Ingredients:]
+                each ingredient in ingredients[0]
+                    if ingredient.checked === true
+                        label(for=ingredient._id) &nbsp;#{ ingredient.name }
+                        input(type='checkbox' name='main_ingredient' id=ingredient._id value=ingredient._id checked)
+                    else 
+                        label(for=ingredient._id) &nbsp;#{ ingredient.name }
+                        input(type='checkbox' name='main_ingredient' id=ingredient._id value=ingredient._id)
+            div #[strong Supplementary Ingredients:] 
+                each ingredient in ingredients[1]
+                    div(style='display: inline; padding-right:10px;')
+                        if ingredient.checked === true
+                            label(for=ingredient._id) &nbsp;#{ ingredient.name }
+                            input(type='checkbox' name='supplementary_ingredient' id=ingredient._id value=ingredient._id checked)
+                        else 
+                            label(for=ingredient._id) &nbsp;#{ ingredient.name }
+                            input(type='checkbox' name='supplementary_ingredient' id=ingredient._id value=ingredient._id)
+        fieldset.form-group
+            div Abilities: 
+                each ability in abilities 
+                        if ability.checked === true 
+                            label(for=ability._id) &nbsp;#{ ability.name }
+                            input(type='checkbox' name='ability' id=ability._id value=ability._id checked)
+                        else 
+                            label(for=ability._id) &nbsp;#{ ability.name }
+                            input(type='checkbox' name='ability' id=ability._id value=ability._id)
+        button(type='submit') Submit
+
+    if errors 
+        ul 
+            each error in errors 
+                li #{error.msg}
