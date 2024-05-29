@@ -6,6 +6,7 @@ import * as sefirah_controller from '../controllers/sefirahController.mjs';
 import * as mainIngredient_controller from '../controllers/mainIngredientController.mjs';
 import * as supplementaryIngredient_controller from '../controllers/supplementaryIngredientController.mjs';
 import * as ability_controller from '../controllers/abilityController.mjs';
+import upload from '../configs/multer.mjs';
 
 const router = express.Router();
 
@@ -33,10 +34,10 @@ router.get('/pathway/:id/delete', pathway_controller.pathway_delete_get);
 
 // POST request
 // POST request for creating a Pathway.
-router.post('/pathway/create', pathway_controller.pathway_create_post);
+router.post('/pathway/create', upload.single('image'), pathway_controller.pathway_create_post);
 
 // POST request for updating a Pathway.
-router.post('/pathway/:id/update', pathway_controller.pathway_update_post);
+router.post('/pathway/:id/update', upload.single('image'), pathway_controller.pathway_update_post);
 
 // POST request for deleting a Pathway.
 router.post('/pathway/:id/delete', pathway_controller.pathway_delete_post);
@@ -62,10 +63,10 @@ router.get('/sequence/:id/delete', sequence_controller.sequence_delete_get);
 
 // POST request
 // POST request for creating a Sequence.
-router.post('/sequence/create', sequence_controller.sequence_create_post);
+router.post('/sequence/create', upload.single('image'), sequence_controller.sequence_create_post);
 
 // POST request for updating a Sequence.
-router.post('/sequence/:id/update', sequence_controller.sequence_update_post);
+router.post('/sequence/:id/update', upload.single('image'), sequence_controller.sequence_update_post);
 
 // POST request for deleting a Sequence.
 router.post('/sequence/:id/delete', sequence_controller.sequence_delete_post);
@@ -91,13 +92,13 @@ router.get('/sefirah/:id/delete', sefirah_controller.sefirah_delete_get);
 
 // POST request
 // POST request for creating a Sefirah.
-router.post('/sefirah/create', sequence_controller.sequence_create_post);
+router.post('/sefirah/create', upload.single('image'), sefirah_controller.sefirah_create_post);
 
 // POST request for updating a Sefirah.
-router.get('/sefirah/:id/update', sefirah_controller.sefirah_update_post);
+router.post('/sefirah/:id/update', upload.single('image'), sefirah_controller.sefirah_update_post);
 
 // POST request for deleting a Sefirah.
-router.get('/sefirah/:id/delete', sefirah_controller.sefirah_delete_post);
+router.post('/sefirah/:id/delete', upload.single('image'), sefirah_controller.sefirah_delete_post);
 
 // TAROT ROUTES
 // GET request
@@ -120,10 +121,10 @@ router.get('/tarot/:id/delete', tarot_controller.tarot_delete_get);
 
 // POST request
 // POST request for creating a Tarot.
-router.post('/tarot/create', tarot_controller.tarot_create_post);
+router.post('/tarot/create',upload.single('image'),tarot_controller.tarot_create_post);
 
 // POST request for updating a Tarot.
-router.post('/tarot/:id/update', tarot_controller.tarot_update_post);
+router.post('/tarot/:id/update', upload.single('image'), tarot_controller.tarot_update_post);
 
 // POST request for deleting a Tarot
 router.post('/tarot/:id/delete', tarot_controller.tarot_delete_post);
@@ -163,12 +164,14 @@ router.get(
 // POST request for creating a MainIngredient.
 router.post(
     '/main_ingredient/create',
+    upload.single('image'),
     mainIngredient_controller.mainIngredient_create_post
 );
 
 // POST request for updating a MainIngredient.
 router.post(
     '/main_ingredient/:id/update',
+    upload.single('image'),
     mainIngredient_controller.mainIngredient_update_post
 );
 
@@ -216,12 +219,14 @@ router.get(
 // POST request for creating a SupplementaryIngredient.
 router.post(
     '/supplementary_ingredient/create',
+    upload.single('image'),
     supplementaryIngredient_controller.supplementaryIngredient_create_post
 );
 
 // POST request for updating a SupplementaryIngredient.
 router.post(
     '/supplementary_ingredient/:id/update',
+    upload.single('image'),
     supplementaryIngredient_controller.supplementaryIngredient_update_post
 );
 
