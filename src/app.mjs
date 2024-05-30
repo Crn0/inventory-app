@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
+import compression from 'compression';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import __dirname from '../dirname.mjs';
 import createError from 'http-errors';
 import { join } from 'path';
@@ -13,6 +16,13 @@ import inventoryRouter from './routes/inventory.mjs';
 
 
 const app = express();
+
+// Set up rate limiter: maximum of twenty requests per minute
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+
 // Define the database URL to connect to.
 const mongoDb = process.env.MONGO_DB;
 
@@ -23,10 +33,22 @@ main().catch(console.error);
 app.set('views', join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
+// Apply rate limiter to all requests
+app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Add helmet to the middleware chain.
+// Set CSP headers to allow our Bootstrap and Jquery to be served
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            "img-src": ["'self'", "data:", "https://res.cloudinary.com"]
+        },
+    })
+);
+app.use(compression()); // Compress all routes  
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', indexRouter);
