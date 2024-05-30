@@ -42,5 +42,4 @@ sequenceSchema.virtual('url').get(function () {
     return `/inventory/sequence/${this._id}`;
 });
 
-
 export default mongoose.model('Sequence', sequenceSchema);

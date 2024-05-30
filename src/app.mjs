@@ -14,13 +14,12 @@ import inventoryRouter from './routes/inventory.mjs';
 
 // if import meta dirname is undefine use import meta url to instead
 
-
 const app = express();
 
 // Set up rate limiter: maximum of twenty requests per minute
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 20,
 });
 
 // Define the database URL to connect to.
@@ -44,11 +43,11 @@ app.use(cookieParser());
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
-            "img-src": ["'self'", "data:", "https://res.cloudinary.com"]
+            'img-src': ["'self'", 'data:', 'https://res.cloudinary.com'],
         },
     })
 );
-app.use(compression()); // Compress all routes  
+app.use(compression()); // Compress all routes
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', indexRouter);

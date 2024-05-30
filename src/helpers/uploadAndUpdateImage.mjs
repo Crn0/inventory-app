@@ -1,7 +1,7 @@
-import { cloudinary } from "../configs/cloudinary.mjs";
+import { cloudinary } from '../configs/cloudinary.mjs';
 
 class Cloudinary {
-    constructor () {}
+    constructor() {}
 
     static async upload(url, tags) {
         try {
@@ -15,11 +15,10 @@ class Cloudinary {
 
     static async update(url, public_id, invalidate = true) {
         try {
-            const res = await cloudinary.uploader.upload(url,  {
-                    public_id,
-                    invalidate 
-                }
-        );
+            const res = await cloudinary.uploader.upload(url, {
+                public_id,
+                invalidate,
+            });
 
             return res;
         } catch (error) {
@@ -29,7 +28,9 @@ class Cloudinary {
 
     static async destroy(public_id, invalidate = true) {
         try {
-            const res = await cloudinary.uploader.destroy(public_id, { invalidate });
+            const res = await cloudinary.uploader.destroy(public_id, {
+                invalidate,
+            });
 
             return res;
         } catch (error) {
@@ -38,4 +39,4 @@ class Cloudinary {
     }
 }
 
-export default Cloudinary
+export default Cloudinary;

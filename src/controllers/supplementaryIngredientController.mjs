@@ -3,21 +3,25 @@ import { body, validationResult } from 'express-validator';
 import isFirstLetterUpperCaseAndAfterSpace from '../helpers/isUppercase.mjs';
 import Cloudinary from '../helpers/uploadAndUpdateImage.mjs';
 import IsImage from '../helpers/isImage.mjs';
-import { ThereIsImage, ThereIsImageAndUrl, ThereIsImageAndNoUrl} from '../helpers/conditionals.mjs';
+import {
+    ThereIsImage,
+    ThereIsImageAndUrl,
+    ThereIsImageAndNoUrl,
+} from '../helpers/conditionals.mjs';
 import SupplementaryIngredient from '../models/supplementaryIngredient.mjs';
 import Sequence from '../models/sequence.mjs';
-
 
 // Detail page
 const supplementaryIngredient_list = asyncHandler(async (req, res, _) => {
     // GET a list of supplementary ingredients
-    const supplementaryIngredients = await SupplementaryIngredient.find({}).sort({ name: 1 }).exec();
+    const supplementaryIngredients = await SupplementaryIngredient.find({})
+        .sort({ name: 1 })
+        .exec();
 
     res.render('supplementaryIngredient_list', {
         supplementaryIngredients,
-        title: 'Supplementary Ingredients'
-    })
-
+        title: 'Supplementary Ingredients',
+    });
 });
 
 const supplementaryIngredient_detail = asyncHandler(async (req, res, next) => {
@@ -25,10 +29,12 @@ const supplementaryIngredient_detail = asyncHandler(async (req, res, next) => {
     // GET supplementary ingredient and sequences detail(in parallel)
     const [supplementaryIngredient, sequences] = await Promise.all([
         SupplementaryIngredient.findById(id).exec(),
-        Sequence.find({ 'formula.supplementary_ingredients': { _id: id }}).sort({ name: 1 }).exec()
+        Sequence.find({ 'formula.supplementary_ingredients': { _id: id } })
+            .sort({ name: 1 })
+            .exec(),
     ]);
 
-    if(supplementaryIngredient === null) {
+    if (supplementaryIngredient === null) {
         // No results.
         const error = new Error('Main Ingredient not found');
         error.status = 404;
@@ -38,51 +44,54 @@ const supplementaryIngredient_detail = asyncHandler(async (req, res, next) => {
     res.render('supplementaryIngredient_detail', {
         supplementaryIngredient,
         sequences,
-        title: 'Supplementary Ingredient Database'
-    })
+        title: 'Supplementary Ingredient Database',
+    });
 });
 
 // GET form request
 const supplementaryIngredient_create_get = asyncHandler(async (req, res, _) => {
     res.render('supplementaryIngredient_form', {
-        title: 'Create Supplementary Ingredient'
+        title: 'Create Supplementary Ingredient',
     });
 });
 
-const supplementaryIngredient_update_get = asyncHandler(async (req, res, next) => {
-    const { id } = req.params;
-    const ingredient = await SupplementaryIngredient.findById(id).exec();
+const supplementaryIngredient_update_get = asyncHandler(
+    async (req, res, next) => {
+        const { id } = req.params;
+        const ingredient = await SupplementaryIngredient.findById(id).exec();
 
-    if(ingredient === null) {
-        const error = new Error('Supplementary Ingredient not found');
-        error.status = 404;
+        if (ingredient === null) {
+            const error = new Error('Supplementary Ingredient not found');
+            error.status = 404;
 
-        return next(error);
+            return next(error);
+        }
+
+        res.render('supplementaryIngredient_form', {
+            ingredient,
+            title: 'Update Supplementary Ingredient',
+        });
     }
-
-    res.render('supplementaryIngredient_form', {
-        ingredient,
-        title: 'Update Supplementary Ingredient'
-    })
-});
+);
 
 const supplementaryIngredient_delete_get = asyncHandler(async (req, res, _) => {
     const { id } = req.params;
     // GET details of ingredient and its sequences.
     const [ingredient, sequences] = await Promise.all([
         SupplementaryIngredient.findById(id).exec(),
-        Sequence.find({ 'formula.supplementary_ingredients': id }).sort({ name: 1 }).exec()
+        Sequence.find({ 'formula.supplementary_ingredients': id })
+            .sort({ name: 1 })
+            .exec(),
     ]);
 
-    if(ingredient === null) {
+    if (ingredient === null) {
         res.redirect('/inventory/main_ingredients');
     }
-
 
     res.render('supplementaryIngredient_delete', {
         ingredient,
         sequences,
-        title: 'Delete Supplementary Ingredient' 
+        title: 'Delete Supplementary Ingredient',
     });
 });
 
@@ -90,29 +99,33 @@ const supplementaryIngredient_delete_get = asyncHandler(async (req, res, _) => {
 const supplementaryIngredient_create_post = [
     // Validate and sanitize field.
     body('name')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
-    .isLength({ max: 100 })
-    .withMessage('Max name length is 100')
-    .custom(isFirstLetterUpperCaseAndAfterSpace)
-    .withMessage(
-        'The first character of ingredient name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
-    )
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Name must be greater than or equals to 3 letters; and not be empty'
+        )
+        .isLength({ max: 100 })
+        .withMessage('Max name length is 100')
+        .custom(isFirstLetterUpperCaseAndAfterSpace)
+        .withMessage(
+            'The first character of ingredient name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
+        )
+        .escape(),
     body('image')
-    .trim()
-    .custom(IsImage)
-    .withMessage('The file extension is not supported. Please upload a file with one of the following extensions: .jpg, .jpeg, .png.')
-    .escape(),
-    body('stocks')
-    .trim()
-    .escape(),
+        .trim()
+        .custom(IsImage)
+        .withMessage(
+            'The file extension is not supported. Please upload a file with one of the following extensions: .jpg, .jpeg, .png.'
+        )
+        .escape(),
+    body('stocks').trim().escape(),
     body('description')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Description must not be empty or greater than or equal to 3 words')
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Description must not be empty or greater than or equal to 3 words'
+        )
+        .escape(),
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, _) => {
         // Extract the validation errors from a request.
@@ -123,30 +136,35 @@ const supplementaryIngredient_create_post = [
         const ingredient = new SupplementaryIngredient({
             name,
             stocks,
-            description
-        })
-        if(!errors.isEmpty()) {
+            description,
+        });
+        if (!errors.isEmpty()) {
             return res.render('supplementaryIngredient_form', {
                 ingredient,
                 errors: errors.array(),
-                title: 'Create Supplementary Ingredient' 
-            })
+                title: 'Create Supplementary Ingredient',
+            });
         }
         // Data form is valid
         // Check if ingredients with the same name exists
-        const ingredientExist = await SupplementaryIngredient.findOne({ name }).collation({ locale: 'en', strength: 2 }).exec();
+        const ingredientExist = await SupplementaryIngredient.findOne({ name })
+            .collation({ locale: 'en', strength: 2 })
+            .exec();
 
-        if(ingredientExist) {
+        if (ingredientExist) {
             // ingredient exists, redirect to its detail page.
 
-            return res.redirect(ingredientExist.url)
+            return res.redirect(ingredientExist.url);
         }
 
-        if(ThereIsImage(imageBinary)) {
+        if (ThereIsImage(imageBinary)) {
             // There is image
-            const b64 = Buffer.from(req.file.buffer).toString("base64");
-            const dataURI = `data:${req.file.mimetype};base64,${b64}`
-            const cloudinaryUpload = await Cloudinary.upload(dataURI, 'supplementary_ingredient_art')
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+            const cloudinaryUpload = await Cloudinary.upload(
+                dataURI,
+                'supplementary_ingredient_art'
+            );
             ingredient.image = {
                 url: cloudinaryUpload.url,
                 cloudinary_id: cloudinaryUpload.public_id,
@@ -156,35 +174,39 @@ const supplementaryIngredient_create_post = [
         await ingredient.save();
 
         res.redirect(ingredient.url);
-    })
+    }),
 ];
 
 const supplementaryIngredient_update_post = [
     // Validate and sanitize field.
     body('name')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
-    .isLength({ max: 100 })
-    .withMessage('Max name length is 100')
-    .custom(isFirstLetterUpperCaseAndAfterSpace)
-    .withMessage(
-        'The first character of ingredient name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
-    )
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Name must be greater than or equals to 3 letters; and not be empty'
+        )
+        .isLength({ max: 100 })
+        .withMessage('Max name length is 100')
+        .custom(isFirstLetterUpperCaseAndAfterSpace)
+        .withMessage(
+            'The first character of ingredient name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
+        )
+        .escape(),
     body('image')
-    .trim()
-    .custom(IsImage)
-    .withMessage('The file extension is not supported. Please upload a file with one of the following extensions: .jpg, .jpeg, .png.')
-    .escape(),
-    body('stocks')
-    .trim()
-    .escape(),
+        .trim()
+        .custom(IsImage)
+        .withMessage(
+            'The file extension is not supported. Please upload a file with one of the following extensions: .jpg, .jpeg, .png.'
+        )
+        .escape(),
+    body('stocks').trim().escape(),
     body('description')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Description must not be empty or greater than or equal to 3 words')
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Description must not be empty or greater than or equal to 3 words'
+        )
+        .escape(),
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, _) => {
         const { id } = req.params;
@@ -200,61 +222,73 @@ const supplementaryIngredient_update_post = [
             stocks,
             description,
             _id: id,
-        })
+        });
 
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return res.render('supplementaryIngredient_form', {
                 ingredient,
                 errors: errors.array(),
-                title: 'Update Supplementary Ingredient' 
-            })
+                title: 'Update Supplementary Ingredient',
+            });
         }
 
         // Data form is valid
-        if(ThereIsImageAndNoUrl(imageBinary, oldIngredient)) {
+        if (ThereIsImageAndNoUrl(imageBinary, oldIngredient)) {
             // There is image file and no image url
-            const b64 = Buffer.from(req.file.buffer).toString("base64");
-            const dataURI = `data:${req.file.mimetype};base64,${b64}`
-            const cloudinaryUpload = await Cloudinary.upload(dataURI, 'supplementary_ingredient_art')
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+            const cloudinaryUpload = await Cloudinary.upload(
+                dataURI,
+                'supplementary_ingredient_art'
+            );
             ingredient.image = {
                 url: cloudinaryUpload.url,
                 cloudinary_id: cloudinaryUpload.public_id,
             };
         }
-        
-        if(ThereIsImageAndUrl(imageBinary, oldIngredient)) {
+
+        if (ThereIsImageAndUrl(imageBinary, oldIngredient)) {
             // There is image file and image url; update the image asset
-            const b64 = Buffer.from(req.file.buffer).toString("base64");
-            const dataURI = `data:${req.file.mimetype};base64,${b64}`
-            await Cloudinary.update(dataURI, oldIngredient.image.cloudinary_id, true);
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+            await Cloudinary.update(
+                dataURI,
+                oldIngredient.image.cloudinary_id,
+                true
+            );
         }
 
         // Data from form is valid. Update the record.
-        await SupplementaryIngredient.findByIdAndUpdate(id, ingredient, {})
+        await SupplementaryIngredient.findByIdAndUpdate(id, ingredient, {});
 
         res.redirect(ingredient.url);
-    })
+    }),
 ];
 
-const supplementaryIngredient_delete_post = asyncHandler(async (req, res, _) => {
-    const { id } = req.params;
-   
-    // GET details of ingredient.
-    const ingredient = await SupplementaryIngredient.findById(id).exec()
-    
-    // Delete the ingredient referenced in the sequences.
-    await Sequence.updateMany({ 'formula.supplementary_ingredients': id }, { $pull: { 'formula.supplementary_ingredients': id }})
-    
-    if(ThereIsImage(ingredient.image.cloudinary_id)) {
-        // Delete image in cloudinary.
-        await Cloudinary.destroy(ingredient.image.cloudinary_id, true);
-    }
-    
-    // Delete object and redirect to the list of ingredients.
-    await SupplementaryIngredient.findByIdAndDelete(id, ingredient, {});
+const supplementaryIngredient_delete_post = asyncHandler(
+    async (req, res, _) => {
+        const { id } = req.params;
 
-    res.redirect('/inventory/supplementary_ingredients');
-});
+        // GET details of ingredient.
+        const ingredient = await SupplementaryIngredient.findById(id).exec();
+
+        // Delete the ingredient referenced in the sequences.
+        await Sequence.updateMany(
+            { 'formula.supplementary_ingredients': id },
+            { $pull: { 'formula.supplementary_ingredients': id } }
+        );
+
+        if (ThereIsImage(ingredient.image.cloudinary_id)) {
+            // Delete image in cloudinary.
+            await Cloudinary.destroy(ingredient.image.cloudinary_id, true);
+        }
+
+        // Delete object and redirect to the list of ingredients.
+        await SupplementaryIngredient.findByIdAndDelete(id, ingredient, {});
+
+        res.redirect('/inventory/supplementary_ingredients');
+    }
+);
 
 export {
     supplementaryIngredient_list,

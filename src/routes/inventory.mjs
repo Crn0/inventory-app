@@ -34,10 +34,18 @@ router.get('/pathway/:id/delete', pathway_controller.pathway_delete_get);
 
 // POST request
 // POST request for creating a Pathway.
-router.post('/pathway/create', upload.single('image'), pathway_controller.pathway_create_post);
+router.post(
+    '/pathway/create',
+    upload.single('image'),
+    pathway_controller.pathway_create_post
+);
 
 // POST request for updating a Pathway.
-router.post('/pathway/:id/update', upload.single('image'), pathway_controller.pathway_update_post);
+router.post(
+    '/pathway/:id/update',
+    upload.single('image'),
+    pathway_controller.pathway_update_post
+);
 
 // POST request for deleting a Pathway.
 router.post('/pathway/:id/delete', pathway_controller.pathway_delete_post);
@@ -63,10 +71,18 @@ router.get('/sequence/:id/delete', sequence_controller.sequence_delete_get);
 
 // POST request
 // POST request for creating a Sequence.
-router.post('/sequence/create', upload.single('image'), sequence_controller.sequence_create_post);
+router.post(
+    '/sequence/create',
+    upload.single('image'),
+    sequence_controller.sequence_create_post
+);
 
 // POST request for updating a Sequence.
-router.post('/sequence/:id/update', upload.single('image'), sequence_controller.sequence_update_post);
+router.post(
+    '/sequence/:id/update',
+    upload.single('image'),
+    sequence_controller.sequence_update_post
+);
 
 // POST request for deleting a Sequence.
 router.post('/sequence/:id/delete', sequence_controller.sequence_delete_post);
@@ -92,13 +108,25 @@ router.get('/sefirah/:id/delete', sefirah_controller.sefirah_delete_get);
 
 // POST request
 // POST request for creating a Sefirah.
-router.post('/sefirah/create', upload.single('image'), sefirah_controller.sefirah_create_post);
+router.post(
+    '/sefirah/create',
+    upload.single('image'),
+    sefirah_controller.sefirah_create_post
+);
 
 // POST request for updating a Sefirah.
-router.post('/sefirah/:id/update', upload.single('image'), sefirah_controller.sefirah_update_post);
+router.post(
+    '/sefirah/:id/update',
+    upload.single('image'),
+    sefirah_controller.sefirah_update_post
+);
 
 // POST request for deleting a Sefirah.
-router.post('/sefirah/:id/delete', upload.single('image'), sefirah_controller.sefirah_delete_post);
+router.post(
+    '/sefirah/:id/delete',
+    upload.single('image'),
+    sefirah_controller.sefirah_delete_post
+);
 
 // TAROT ROUTES
 // GET request
@@ -121,10 +149,18 @@ router.get('/tarot/:id/delete', tarot_controller.tarot_delete_get);
 
 // POST request
 // POST request for creating a Tarot.
-router.post('/tarot/create',upload.single('image'),tarot_controller.tarot_create_post);
+router.post(
+    '/tarot/create',
+    upload.single('image'),
+    tarot_controller.tarot_create_post
+);
 
 // POST request for updating a Tarot.
-router.post('/tarot/:id/update', upload.single('image'), tarot_controller.tarot_update_post);
+router.post(
+    '/tarot/:id/update',
+    upload.single('image'),
+    tarot_controller.tarot_update_post
+);
 
 // POST request for deleting a Tarot
 router.post('/tarot/:id/delete', tarot_controller.tarot_delete_post);

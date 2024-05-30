@@ -18,9 +18,6 @@ const UploadImage = async (url, tags, public_id) => {
     }
 };
 
-
 // UploadImage(`/home/ivan/repos/inventory-app/public/images/Fool_Art.png`)
-export {
-    cloudinary
-}
+export { cloudinary };
 export default UploadImage;

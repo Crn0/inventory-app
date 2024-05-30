@@ -8,7 +8,8 @@ const imageFactory = (name) => {
         };
     };
 
-    const getImage = (index) => (index === 'undefined' ? images : images[index]);
+    const getImage = (index) =>
+        index === 'undefined' ? images : images[index];
 
     const getName = () => name;
 

@@ -1,8 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
-import isFirstLetterUpperCaseAndAfterSpace from '../helpers/isUppercase.mjs'
+import isFirstLetterUpperCaseAndAfterSpace from '../helpers/isUppercase.mjs';
 import Ability from '../models/ability.mjs';
-import Sequence from '../models/sequence.mjs'
+import Sequence from '../models/sequence.mjs';
 
 // Detail page
 const ability_list = asyncHandler(async (req, res, _) => {
@@ -19,7 +19,7 @@ const ability_detail = asyncHandler(async (req, res, next) => {
     // GET ability details
     const ability = await Ability.findById(id).exec();
 
-    if(ability === null) {
+    if (ability === null) {
         // No results.
         const error = new Error('Ability not found');
         error.status = 404;
@@ -28,14 +28,14 @@ const ability_detail = asyncHandler(async (req, res, next) => {
 
     res.render('ability_detail', {
         ability,
-        title: 'Ability Database'
+        title: 'Ability Database',
     });
 });
 
 // GET form request
 const ability_create_get = asyncHandler(async (req, res, _) => {
     res.render('ability_form', {
-        title: 'Create Ability'
+        title: 'Create Ability',
     });
 });
 
@@ -43,7 +43,7 @@ const ability_update_get = asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const ability = await Ability.findById(id).exec();
 
-    if(ability === null) {
+    if (ability === null) {
         const error = new Error('Ability not found');
         error.status = 404;
         return next(error);
@@ -51,8 +51,8 @@ const ability_update_get = asyncHandler(async (req, res, next) => {
 
     res.render('ability_form', {
         ability,
-        title: 'Update Ability'
-    })
+        title: 'Update Ability',
+    });
 });
 
 const ability_delete_get = asyncHandler(async (req, res, _) => {
@@ -60,17 +60,17 @@ const ability_delete_get = asyncHandler(async (req, res, _) => {
     // Get details of ability and all the sequences that uses it (in parallel)
     const [ability, sequences] = await Promise.all([
         Ability.findById(id).exec(),
-        Sequence.find({ abilities: id }, 'name image').sort({ name: 1 }).exec()
+        Sequence.find({ abilities: id }, 'name image').sort({ name: 1 }).exec(),
     ]);
-    
-    if(ability === null) {
-       res.redirect('/inventory/abilities')
+
+    if (ability === null) {
+        res.redirect('/inventory/abilities');
     }
 
     res.render('ability_delete', {
         ability,
         sequences,
-        title: 'Delete Ability'
+        title: 'Delete Ability',
     });
 });
 
@@ -78,27 +78,34 @@ const ability_delete_get = asyncHandler(async (req, res, _) => {
 const ability_create_post = [
     // Convert the description to an array.
     (req, res, next) => {
-        if(!Array.isArray(req.body.descriptions)) {
-            req.body.descriptions = typeof req.body.descriptions === 'undefined' ? [] : [req.body.descriptions]
+        if (!Array.isArray(req.body.descriptions)) {
+            req.body.descriptions =
+                typeof req.body.descriptions === 'undefined'
+                    ? []
+                    : [req.body.descriptions];
         }
 
         next();
     },
     // Validate and sanitize field.
     body('name')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
-    .custom(isFirstLetterUpperCaseAndAfterSpace)
-    .withMessage(
-        'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
-    )
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Name must be greater than or equals to 3 letters; and not be empty'
+        )
+        .custom(isFirstLetterUpperCaseAndAfterSpace)
+        .withMessage(
+            'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
+        )
+        .escape(),
     body('descriptions.*')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Description must not be empty or greater than or equal to 3 words')
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Description must not be empty or greater than or equal to 3 words'
+        )
+        .escape(),
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, _) => {
         // Extract the validation errors from a request.
@@ -109,55 +116,64 @@ const ability_create_post = [
             name,
             descriptions,
         });
-        
-        if(!errors.isEmpty()) {
+
+        if (!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values/error messages.
             return res.render('ability_form', {
                 ability,
                 errors: errors.array(),
-                title: 'Create Ability'
-            })
-;        }
+                title: 'Create Ability',
+            });
+        }
         // Data from form is valid.
         // Check if Ability with same name already exists.
-        const abilityExist = await Ability.findOne({ name }).collation({ locale: 'en', strength: 2 }).exec()
-        
-        if(abilityExist) {
+        const abilityExist = await Ability.findOne({ name })
+            .collation({ locale: 'en', strength: 2 })
+            .exec();
+
+        if (abilityExist) {
             // Ability exists, redirect to its detail page.
 
-            return res.redirect(abilityExist.url)
+            return res.redirect(abilityExist.url);
         }
 
         await ability.save();
 
         res.redirect(ability.url);
-    })
+    }),
 ];
 
 const ability_update_post = [
     // Convert the description to an array.
     (req, res, next) => {
-        if(!Array.isArray(req.body.descriptions)) {
-            req.body.descriptions = typeof req.body.descriptions === 'undefined' ? [] : [req.body.descriptions]
+        if (!Array.isArray(req.body.descriptions)) {
+            req.body.descriptions =
+                typeof req.body.descriptions === 'undefined'
+                    ? []
+                    : [req.body.descriptions];
         }
 
         next();
     },
     // Validate and sanitize field.
     body('name')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Name must be greater than or equals to 3 letters; and not be empty')
-    .custom(isFirstLetterUpperCaseAndAfterSpace)
-    .withMessage(
-        'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
-    )
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Name must be greater than or equals to 3 letters; and not be empty'
+        )
+        .custom(isFirstLetterUpperCaseAndAfterSpace)
+        .withMessage(
+            'The first character of ability name must be capitalized followed by lowercase letters, as well as the first character after a space or special character'
+        )
+        .escape(),
     body('descriptions.*')
-    .trim()
-    .isLength({ min: 3 })
-    .withMessage('Description must not be empty or greater than or equal to 3 words')
-    .escape(),
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage(
+            'Description must not be empty or greater than or equal to 3 words'
+        )
+        .escape(),
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, _) => {
         const { id } = req.params;
@@ -170,30 +186,29 @@ const ability_update_post = [
             descriptions,
             _id: id,
         });
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values/error messages.
             return res.render('ability_form', {
                 ability,
                 errors: errors.array(),
-                title: 'Update Ability'
-            })
-;        }
+                title: 'Update Ability',
+            });
+        }
         // Data from form is valid. Update the record.
         const updatedAbility = await Ability.findByIdAndUpdate(id, ability, {});
 
         res.redirect(updatedAbility.url);
-    })
+    }),
 ];
 
 const ability_delete_post = asyncHandler(async (req, res, _) => {
     const { id } = req.params;
     // Get details of sequences that uses this ability
-    await Sequence.updateMany({ abilities: id }, { $pull: { abilities: id }})
+    await Sequence.updateMany({ abilities: id }, { $pull: { abilities: id } });
 
     await Ability.findByIdAndDelete(id);
 
     res.redirect('/inventory/abilities');
-
 });
 
 export {
